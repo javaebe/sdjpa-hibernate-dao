@@ -1,6 +1,7 @@
 package guru.springframework.jdbc.dao;
 
 import guru.springframework.jdbc.domain.Author;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,12 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
-        return null;
+        TypedQuery<Author> query = getEntityManager().createQuery(
+                "SELECT a FROM Author a WHERE firstName = :firstName AND lastName = :lastName",
+                Author.class);
+        query.setParameter("firstName", firstName);
+        query.setParameter("lastName", lastName);
+        return query.getSingleResult();
     }
 
     @Override
@@ -43,7 +49,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
     }
 
-    private EntityManager getEntityManager(){
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 }
