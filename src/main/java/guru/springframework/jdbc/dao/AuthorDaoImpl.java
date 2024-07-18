@@ -36,17 +36,35 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author saveNewAuthor(Author author) {
-        return null;
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.persist(author);
+        em.flush();
+        em.getTransaction().commit();
+        return author;
     }
 
     @Override
     public Author updateAuthor(Author author) {
-        return null;
+        EntityManager em = getEntityManager();
+        em.joinTransaction();
+        em.merge(author);
+        em.flush();
+        em.clear();
+        return em.find(Author.class, author.getId());
     }
 
     @Override
     public void deleteAuthorById(Long id) {
+        EntityManager em = getEntityManager();
 
+        em.getTransaction().begin();
+        Author author = em.find(Author.class, id);
+
+        em.remove(author);
+        em.flush();
+        em.clear();
+        em.getTransaction().commit();
     }
 
     private EntityManager getEntityManager() {
