@@ -41,17 +41,22 @@ public class AuthorDaoImpl implements AuthorDao {
         em.persist(author);
         em.flush();
         em.getTransaction().commit();
+        em.close();
         return author;
     }
 
     @Override
     public Author updateAuthor(Author author) {
         EntityManager em = getEntityManager();
-        em.joinTransaction();
-        em.merge(author);
-        em.flush();
-        em.clear();
-        return em.find(Author.class, author.getId());
+        try {
+            em.joinTransaction();
+            em.merge(author);
+            em.flush();
+            em.clear();
+            return em.find(Author.class, author.getId());
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -65,6 +70,7 @@ public class AuthorDaoImpl implements AuthorDao {
         em.flush();
         em.clear();
         em.getTransaction().commit();
+        em.close();
     }
 
     private EntityManager getEntityManager() {
