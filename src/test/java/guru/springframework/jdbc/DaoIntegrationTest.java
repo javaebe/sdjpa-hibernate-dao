@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -138,6 +140,14 @@ class DaoIntegrationTest {
         Author author = authorDao.findAuthorByName("Craig", "Walls");
 
         assertThat(author).isNotNull();
+    }
+
+    @Test
+    void listAuthorByLastNameLike() {
+        List<Author> authorList = authorDao.listAuthorByLastNameLike("Wall");
+
+        assertThat(authorList).isNotNull();
+        assertThat(authorList.size()).isPositive();
     }
 
     @Test
