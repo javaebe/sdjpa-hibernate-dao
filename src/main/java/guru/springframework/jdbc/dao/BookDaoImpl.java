@@ -3,6 +3,7 @@ package guru.springframework.jdbc.dao;
 import guru.springframework.jdbc.domain.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class BookDaoImpl implements BookDao {
@@ -19,6 +20,19 @@ public class BookDaoImpl implements BookDao {
         Book book = em.find(Book.class, id);
         em.close();
         return book;
+    }
+
+    @Override
+    public Book findByISBN(String isbn) {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<Book> query = em.createQuery("SELECT b FROM Book b WHERE b.isbn = :isbn", Book.class);
+            query.setParameter("isbn", isbn);
+            return query.getSingleResult();
+        } finally {
+            em.close();
+        }
+
     }
 
     @Override

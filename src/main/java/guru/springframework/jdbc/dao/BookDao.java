@@ -6,6 +6,8 @@ import guru.springframework.jdbc.domain.Book;
 public interface BookDao {
     Book getById(Long id);
 
+    Book findByISBN(String isbn);
+
     Book findBookByTitle(String title);
 
     Book saveNewBook(Book book);
