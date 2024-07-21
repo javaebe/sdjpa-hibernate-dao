@@ -111,6 +111,14 @@ class DaoIntegrationTest {
     }
 
     @Test
+    void findAllAuthors() {
+        List<Author> authors = authorDao.findAll();
+
+        assertThat(authors).isNotNull();
+        assertThat(authors.size()).isPositive();
+    }
+
+    @Test
     void testDeleteAuthor() {
         Author author = new Author();
         author.setFirstName("john");
