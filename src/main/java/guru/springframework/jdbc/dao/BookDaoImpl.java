@@ -6,12 +6,25 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
+import java.util.List;
+
 public class BookDaoImpl implements BookDao {
 
     private final EntityManagerFactory emf;
 
     public BookDaoImpl(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    @Override
+    public List<Book> findAll() {
+        EntityManager em = getEntityManager();
+        TypedQuery<Book> query = em.createNamedQuery(
+                "find_all",
+                Book.class);
+        List<Book> list = query.getResultList();
+        em.close();
+        return list;
     }
 
     @Override
@@ -38,8 +51,8 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Book findBookByTitle(String title) {
         EntityManager em = getEntityManager();
-        TypedQuery<Book> query = em.createQuery(
-                "SELECT b FROM Book b WHERE title = :title",
+        TypedQuery<Book> query = em.createNamedQuery(
+                "find_by_title",
                 Book.class);
         query.setParameter("title", title);
         Book book = query.getSingleResult();

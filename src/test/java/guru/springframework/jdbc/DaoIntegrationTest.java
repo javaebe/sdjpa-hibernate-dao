@@ -111,6 +111,14 @@ class DaoIntegrationTest {
     }
 
     @Test
+    void findAllBooks() {
+        List<Book> books = bookDao.findAll();
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isPositive();
+    }
+
+    @Test
     void findAllAuthors() {
         List<Author> authors = authorDao.findAll();
 
