@@ -1,13 +1,13 @@
 package guru.springframework.jdbc.dao;
 
 import guru.springframework.jdbc.domain.Book;
-import org.springframework.stereotype.Component;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
@@ -48,7 +48,7 @@ public class BookDaoImpl implements BookDao {
     public Book findBookByTitle(String title) {
         EntityManager em = getEntityManager();
 
-        try{
+        try {
             TypedQuery<Book> query = em.createNamedQuery("find_by_title", Book.class);
             query.setParameter("title", title);
             Book book = query.getSingleResult();
@@ -79,7 +79,7 @@ public class BookDaoImpl implements BookDao {
 
             return typedQuery.getSingleResult();
         } finally {
-            em.close();;
+            em.close();
         }
     }
 
@@ -94,7 +94,7 @@ public class BookDaoImpl implements BookDao {
 
             return (Book) query.getSingleResult();
         } finally {
-            em.close();;
+            em.close();
         }
     }
 
@@ -145,12 +145,7 @@ public class BookDaoImpl implements BookDao {
         }
     }
 
-    private EntityManager getEntityManager(){
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 }
-
-
-
-
-
